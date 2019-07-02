@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta charset="UTF-8">
+    <title>QQ注册</title>
+    <link rel="stylesheet" type="text/css" href="//4.url.cn/zc/v3/css/index-26a9f2339d.css">
+    <script src="./js/jquery-1.11.3-min.js"></script>
+    <!--<script src="./js/jquery-3.4.1.min.js"></script>-->
+</head>
+
+<body><a class="logo" href="javascript:void(0)" data-bind="click: home">QQ</a>
+<div class="side" style="background-image: url(&quot;//4.url.cn/zc/v3/img/01-4.jpg&quot;); display: block;"></div>
+<div class="top">
+    <div class="item feedback"><a data-bind="click: feedback" href="javascript:void(0)">意见反馈</a></div>
+    <div class="item feedback"><a data-bind="click: feedback" href="javascript:void(0)">简体中文</a></div>
+
+    <div class="item qq-entry"><a
+            data-bind="click: toQQ" href="javascript:void(0)">QQ帐号</a></div>
+    <div class="item lianghao"><a
+            class="lianghao-entry"
+            target="_blank">
+        <div>QQ靓号</div>
+        <img src="//4.url.cn/zc/v3/img/logo3.png" srcset="//4.url.cn/zc/v3/img/logo3@2x.png 2x">
+    </a>
+
+    </div>
+</div>
+<div class="main-wraper">
+    <div class="main">
+        <div id="reg" class="form" autocomplete="off">
+            <div>
+                <div class="welcome">欢迎注册QQ</div>
+                <div class="header free-lianghao-entry"><a href="javascript:void(0)"
+                                                           data-bind="click: toLianghao">免费靓号</a></div>
+                <div class="header">每一天，乐在沟通。</div>
+            </div>
+
+            <form autocomplete="off">
+
+                <div class="input-area">
+                    <div class="input-flags">
+                        <div class="input-ok"></div>
+                    </div>
+                    <div class="input-outer"><input autocomplete="off" type="text" id="nickname" class="nickname"
+                                                    placeholder="昵称"></div>
+                </div>
+                <div class="input-area">
+                    <div class="input-flags">
+                        <!-- <div class="input-ok"></div> -->
+                    </div>
+                    <div class="input-outer"><input autocomplete="off" type="text" id="pwd" class="nickname"
+                                                    placeholder="密码"></div>
+                </div>
+
+                <div><input id="get_acc" type="button" class="submit" value="立即注册" tabindex="8">
+
+                </div>
+                <div class="agreement"><input type="checkbox" name="agree" id="agree"
+                                              data-bind="checked: agree"><label for="agree" class="checkbox"><img
+                        src="//4.url.cn/zc/v3/img/checkbox_check.png"
+                        srcset="//4.url.cn/zc/v3/img/checkbox_check@2x.png 2x">&nbsp;我已阅读并同意相关服务条款和隐私政策</label>&nbsp;<img
+                        src="//4.url.cn/zc/v3/img/down.png">
+                </div>
+            </form>
+        </div>
+
+        <div class="succ" style="display: none">
+            <div data-bind="visible: !active()">
+                <div class="succ-logo"></div>
+                <div class="reg-succ">注册成功</div>
+                <div>
+                    <div class="qq-number">QQ帐号:<span class="qqNo"></span><a href="javascript:void(0)"
+                                                                             class="download-number" alt="保存号码到电脑"
+                                                                             title="点击将QQ号码保持到本地"
+                                                                             data-bind="click: download"><img
+                            src="//4.url.cn/zc/v3/img/download.png"
+                            srcset="//4.url.cn/zc/v3/img/download@2x.png 2x"></a></div>
+                    <div class="qqmail" data-bind="text: qqmail_tips, visible: isQQMail()"></div>
+                    <div class="othermail" data-bind="text: othermail_tips, visible: isMail()"></div>
+
+                    <a href="index.html">
+                        <button id="gologin" class="login" data-bind="visible: !isLianghao(), click: startClient">立即登录
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer" style="margin-top: 130px">Copyright <span>©</span> 1998-
+            <script>document.write((new Date).getFullYear())</script>
+            Tencent All Rights Reserved
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    //side  //background-image: url("//4.url.cn/zc/v3/img/01-1.jpg"); display: block;
+    //background-image: url("//4.url.cn/zc/v3/img/01-4.jpg"); display: block;
+    $(document).ready(function () {
+        $("#get_acc").click(function () {
+            var nickname = $("#nickname").val();
+            var pwd = $("#pwd").val();
+
+            // 4种 ajax请求
+            /*            var xhr;
+                        if(window.XMLHttpRequest){
+                            xhr=new XMLHttpRequest();
+                        }else{
+                            xhr=new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xhr.onreadystatechange=function(){
+                            if(xhr.readyState==4){
+                                if(xhr.status==200){
+                                    //成功
+                                    //console.log(xhr.responseText);
+                                    var rs=JSON.parse(xhr.responseText);
+                                    console.log(rs);
+                                }
+                            }
+                        }
+                        xhr.open('POST',"http://localhost:8080/reg",true);
+                        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                        xhr.send("nickname="+nickname+"&pwd="+pwd);*/
+
+            $.ajax({
+                url: "http://localhost:8080/reg",
+                headers: {},
+                data: {
+                    name: nickname,
+                    pwd: pwd
+                },
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                success: (data) => {
+                    data = JSON.parse(data)
+                    if (data.status == 200) {
+                        let account = data.account
+                        $('#reg').css("display", "none")
+                        $(".succ").css("display", "block")
+                        $(".qqNo").html(account)
+                    }
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+
+            /*$.ajax({
+                url: "http://localhost:8080/reg",
+                type: "post",
+                data: `name=${nickname}&pwd=${pwd}`,
+                dataType: "JSON",
+                success: (data) => {
+                    console.log(data)
+                },
+                err: (err)=>{
+                    console.log(err)
+                }
+
+            })*/
+
+            /*$.post("http://localhost:8080/reg",`name=${nickname}&pwd=${pwd}`,(err,data)=>{
+                if(err){
+                    console.log(err)
+                }else {
+                    console.log(data)
+                }
+            })*/
+        })
+
+    });
+</script>
+
+</html>
